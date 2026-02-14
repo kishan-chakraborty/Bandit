@@ -2,7 +2,7 @@ import numpy as np
 from Algorithms.ucb import UCB
 from Algorithms.kl_ucb import KLUCB
 from Algorithms.epsilon_t_greedy import EpsilonTGreedy
-from Rewards.gaussian import GaussianReward
+from Stochastic.rewards import GaussianReward
 from utils import cal_regret, plot_regret, BanditEnvironment
 
 # Experiment to compare various stochastic bandit algorithms
