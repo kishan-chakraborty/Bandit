@@ -1,6 +1,9 @@
 import numpy as np
- 
+
+
 class EpsilonTGreedy:
+    name = "eps_t_greedy"
+
     def __init__(self, num_arms, c=1.0):
         self.num_arms = num_arms
         self.c = c

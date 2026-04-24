@@ -2,6 +2,8 @@ import numpy as np
 
 
 class KLUCB:
+    name = "kl_ucb"
+
     def __init__(self, num_arms, sigma=1.0):
         self.num_arms = num_arms
         self.counts = np.zeros(num_arms)
