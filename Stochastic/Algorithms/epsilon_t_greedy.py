@@ -16,9 +16,9 @@ class EpsilonTGreedy:
         eps_t = min(1.0, self.c * self.num_arms / self.total_counts)
 
         if np.random.rand() < eps_t:
-            return np.random.randint(self.num_arms)
+            return int(np.random.randint(self.num_arms))
         else:
-            return np.argmax(self.values)
+            return int(np.argmax(self.values))
 
     def update(self, chosen_arm, reward):
         self.counts[chosen_arm] += 1

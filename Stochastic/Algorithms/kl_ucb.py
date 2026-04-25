@@ -8,21 +8,25 @@ class KLUCB:
         self.num_arms = num_arms
         self.counts = np.zeros(num_arms)
         self.values = np.zeros(num_arms)
-        self.total_counts = 0
+        self.total_iters = 0
         self.sigma = sigma
 
     def select_arm(self):
-        if self.total_counts < self.num_arms:
-            return self.total_counts
+        if self.total_iters < self.num_arms:
+            return int(self.total_iters)
 
-        t = self.total_counts
         kl_ucb_values = self.values + np.sqrt(
-            (2 * self.sigma**2 * (np.log(t) + 3 * np.log(np.log(t)))) / self.counts
+            (
+                2
+                * self.sigma**2
+                * (np.log(self.total_iters) + 3 * np.log(np.log(self.total_iters)))
+            )
+            / self.counts
         )
-        return np.argmax(kl_ucb_values)
+        return int(np.argmax(kl_ucb_values))
 
     def update(self, chosen_arm, reward):
-        self.total_counts += 1
+        self.total_iters += 1
         self.counts[chosen_arm] += 1
 
         n = self.counts[chosen_arm]

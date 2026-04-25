@@ -2,10 +2,11 @@ import numpy as np
 
 
 class EXP3:
-    name = 'exp3'
+    name = "exp3"
+
     def __init__(self, K: int, args=None):
         self.K = K
-        self.gamma = args['gamma']
+        self.gamma = args["gamma"]
         self.weights = np.ones(K)
         self.probs = self._compute_probs()
         self.save_probs = []
@@ -18,13 +19,13 @@ class EXP3:
         probs = (1 - self.gamma) * self.weights + (self.gamma / self.K)
         return probs
 
-    def get_action(self) -> int:
+    def select_arm(self) -> int:
         "Sample an action according to the current probability distribution."
         self.probs = self._compute_probs()
         self.save_probs.append(self.probs)
         if np.isnan(self.probs).any():
             print("NaN detected")
-        return np.random.choice(self.K, p=self.probs)
+        return int(np.random.choice(self.K, p=self.probs))
 
     def update(self, action: int, reward: float):
         "Update the weights based on the received reward."
@@ -36,6 +37,7 @@ class EXP3:
         )
         # small numeric safety
         self.weights = np.maximum(self.weights, 1e-12)
+
 
 if __name__ == "__main__":
     learner = EXP3(4)
