@@ -1,5 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class BanditEnvironment:
@@ -23,14 +23,14 @@ def cal_regret(reward_distributions, hist):
         list: A list of cumulative regret values at each time step.
     """
     opt_mean = max([rd.mu for rd in reward_distributions])
+    regret = np.zeros_like(hist, dtype=float)
 
     for t, arm in enumerate(hist):
         mean_reward = reward_distributions[arm].mu
-        regret = opt_mean - mean_reward
-        hist[t] = regret
+        regret[t] = opt_mean - mean_reward
 
     # Calculate cumulative regret
-    cumulative_regret = np.cumsum(hist)
+    cumulative_regret = np.cumsum(regret)
     return cumulative_regret
 
 
@@ -47,16 +47,10 @@ def plot_regret(regret_dict, marker_spacing=20):
     # Plot marker at regular intervals
     marker_style = ["o", "*", "^", "s", "D"]
     for i, (algo, regret) in enumerate(regret_dict.items()):
-        plt.plot(
-            np.arange(0, len(regret), marker_spacing),
-            regret[::marker_spacing],
-            marker=marker_style[i % len(marker_style)],
-            linestyle="",
-        )
+        plt.plot(regret, label=algo)
 
     plt.xlabel("Time Steps")
     plt.ylabel("Cumulative Regret")
     plt.title("Cumulative Regret of Different Algorithms")
     plt.legend()
-    # plt.show()
     return plt.gcf()
