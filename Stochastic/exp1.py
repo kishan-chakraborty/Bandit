@@ -1,7 +1,7 @@
 import numpy as np
-from Algorithms.ucb import UCB
-from Algorithms.kl_ucb import KLUCB
-from Algorithms.epsilon_t_greedy import EpsilonTGreedy
+from mab.algorithms.ucb import UCB
+from mab.algorithms.kl_ucb import KLUCB
+from mab.algorithms.epsilon_t_greedy import EpsilonTGreedy
 from Stochastic.rewards import GaussianReward
 from utils import cal_regret, plot_regret, BanditEnvironment
 
