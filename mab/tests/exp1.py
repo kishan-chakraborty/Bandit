@@ -1,9 +1,16 @@
-import numpy as np
-from mab.algorithms.ucb import UCB
-from mab.algorithms.kl_ucb import KLUCB
-from mab.algorithms.epsilon_t_greedy import EpsilonTGreedy
-from Stochastic.rewards import GaussianReward
-from utils import cal_regret, plot_regret, BanditEnvironment
+"""
+This is to compare various MAB algorithms in Bernoulli environment.
+
+Kishan Chakraborty, 23-05-2026
+"""
+
+import sys
+from pathlib import Path
+
+current_dir = Path.cwd()
+sys.path.append(str(current_dir.parent))
+
+from env.stochastic.bernoulli import Bernoulli  # noqa: E402
 
 # Experiment to compare various stochastic bandit algorithms
 
@@ -12,10 +19,10 @@ num_arms = 5
 time_horizon = 1000
 num_simulations = 100
 
-normal_means = [1, 2, 3, 4, 5]  # True means for each arm
-arms = [GaussianReward(mu=normal_means[i], sigma=1) for i in range(num_arms)]
+bernoulli_probs = [0.1, 0.3, 0.5, 0.7, 0.9]  # True probabilities for each arm
+arms = [Bernoulli(p=bernoulli_probs[i]) for i in range(num_arms)]
 
-env = BanditEnvironment(arms)
+env = Bernoulli(arms)
 
 # Store mean rewards of number of simulations for each algorithm
 ucb_rewards = [0] * time_horizon

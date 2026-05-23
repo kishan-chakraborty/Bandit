@@ -4,6 +4,7 @@ from pathlib import Path
 current_dir = Path.cwd()
 sys.path.append(str(current_dir.parent))
 
+import numpy as np
 from env import Environment  # noqa: E402
 from utils import cal_stochastic_regret
 
@@ -20,12 +21,12 @@ class Bernoulli(Environment):
                 "Mean rewards must be in the range [0, 1] for Bernoulli distribution."
             )
 
-    def step(self, action: int) -> float:
+    def step(self, action: int | np.int64) -> float:
         """
         Take an action and return the reward.
 
         Args:
-            action: int
+            action: int or np.int64
                 The index of the arm to pull.
         Returns: int
             The reward obtained from pulling the arm 0 and 1.
