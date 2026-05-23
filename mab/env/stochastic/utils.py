@@ -2,35 +2,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-class BanditEnvironment:
-    def __init__(self, reward_distributions):
-        self.reward_distributions = reward_distributions
-        self.K = len(reward_distributions)
-
-    def pull(self, arm):
-        return self.reward_distributions[arm].pull()
-
-
-def cal_regret(reward_distributions, hist):
+def cal_stochastic_regret(mean_rewards: list, chosen_arms: list) -> np.ndarray:
     """
-    Calculate the regret based on the optimal mean and the history of chosen arms.
-
-    Parameters:
-        opt_mean (float): The mean reward of the optimal arm.
-        hist (list): A list of chosen arms.
-
-    Returns:
-        list: A list of cumulative regret values at each time step.
+    Args:
+        mean_rewards: [K] array of mean rewards for each arm.
+        chosen_arms: [T] array of arms chosen by the algorithm at each time step.
+    return:
+        cumulative_regret: [T] array of cumulative regret at each time step.
     """
-    opt_mean = max([rd.mu for rd in reward_distributions])
-    regret = np.zeros_like(hist, dtype=float)
-
-    for t, arm in enumerate(hist):
-        mean_reward = reward_distributions[arm].mu
-        regret[t] = opt_mean - mean_reward
-
-    # Calculate cumulative regret
-    cumulative_regret = np.cumsum(regret)
+    max_mean = max(mean_rewards)  # Optimal mean reward
+    per_step_regret = np.array(
+        [max_mean - mean_rewards[arm] for arm in chosen_arms]
+    )  # Per step regret
+    cumulative_regret = np.cumsum(
+        per_step_regret
+    )  # Cumulative regret at each time step
     return cumulative_regret
 
 
