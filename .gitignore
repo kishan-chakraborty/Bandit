@@ -1,3 +1,4 @@
 *.pyc
 *.pdf
 Bandit.egg-info
+mablib.egg-info
