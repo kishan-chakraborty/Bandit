@@ -1,12 +1,8 @@
-import sys
-from pathlib import Path
-
-current_dir = Path.cwd()
-sys.path.append(str(current_dir.parent))
-
 import numpy as np
-from env import Environment  # noqa: E402
-from utils import cal_stochastic_regret
+
+from mab.environment.env import Environment
+
+from .utils import cal_stochastic_regret
 
 
 class Bernoulli(Environment):
