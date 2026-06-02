@@ -9,6 +9,8 @@ from mab.algorithms.kl_ucb import KLUCB
 from mab.algorithms.ucb import UCB
 from mab.environment.experiment import Experiment
 from mab.environment.stationary.bernoulli import Bernoulli
+from mab.environment.stationary.utils import Agent
+from mab.environment.plots import plot_regret
 
 # Experiment to compare various stochastic bandit algorithms
 
@@ -21,12 +23,14 @@ bernoulli_probs = [0.1, 0.3, 0.5, 0.7, 0.9]  # True probabilities for each arm
 env = Bernoulli(mean_rewards=bernoulli_probs, seed=42)
 
 # Initialize the algorithms
-ucb = UCB(n_arms=n_arms)
-kl_ucb = KLUCB(n_arms=n_arms)
-epsilon_t_greedy = EpsilonTGreedy(n_arms=n_arms)
+ucb = Agent(UCB(n_arms=n_arms))
+kl_ucb = Agent(KLUCB(n_arms=n_arms))
+epsilon_t_greedy = Agent(EpsilonTGreedy(n_arms=n_arms))
 
 algorithms = [ucb, kl_ucb, epsilon_t_greedy]
 
 # Run the experiment
 experiment = Experiment(env, algorithms, time_horizon, num_simulations)
 experiment.run()
+regret_dict = experiment.compute_average_regret()
+plot_regret(regret_dict)
