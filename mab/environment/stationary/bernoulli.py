@@ -28,8 +28,6 @@ class Bernoulli(Environment):
             The reward obtained from pulling the arm 0 and 1.
         """
         reward = self.rng.binomial(n=1, p=self.mean_rewards[action])
-        self.action_hist.append(action)
-        self.reward_hist.append(reward)
 
         return reward
 

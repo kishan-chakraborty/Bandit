@@ -26,7 +26,6 @@ class Environment:
         self.best_arm = np.argmax(mean_rewards)
         self.best_mean = mean_rewards[self.best_arm]
         self.rng = np.random.default_rng(seed)  # Local random number generator per env.
-        self.reset()
 
     def step(self, action: int) -> float:
         """
@@ -41,13 +40,6 @@ class Environment:
         """
         raise NotImplementedError("The step method must be implemented by subclasses.")
 
-    def reset(self):
-        """
-        Reset the environment to the initial state.
-        """
-        self.action_hist = []  # List to store the action history.
-        self.reward_hist = []  # List to store the reward history.
-
     def oracle(self):
         """
         Return the oracle information.
@@ -58,11 +50,3 @@ class Environment:
             "mean_rewards": self.mean_rewards,
         }
         return result
-
-    def cal_regret(self):
-        """
-        Compute the cumulative regret based on the action history and reward history.
-        """
-        raise NotImplementedError(
-            "The compute_regret method must be implemented by subclasses."
-        )
