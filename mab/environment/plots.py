@@ -8,14 +8,12 @@ def plot_regret(regret_dict, marker_spacing=20):
         regret_dict (dict): algo_name -> cumulative_regret
     """
     plt.figure(figsize=(10, 6))
-    for algo, regret in regret_dict.items():
-        plt.plot(regret, label=algo)
 
     # Plot marker at regular intervals
     marker_style = ["o", "*", "^", "s", "D"]
     for i, (algo, regret) in enumerate(regret_dict.items()):
-        plt.plot(regret, label=algo)
-
+        plt.plot(regret, label=algo, marker=marker_style[i % len(marker_style)], markevery=marker_spacing)
+        
     plt.xlabel("Time Steps")
     plt.ylabel("Cumulative Regret")
     plt.title("Cumulative Regret of Different Algorithms")
