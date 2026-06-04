@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+
 def plot_regret(regret_dict, marker_spacing=20):
     """
     Plot the cumulative regret for different algorithms.
@@ -19,4 +20,5 @@ def plot_regret(regret_dict, marker_spacing=20):
     plt.ylabel("Cumulative Regret")
     plt.title("Cumulative Regret of Different Algorithms")
     plt.legend()
+    plt.show()
     return plt.gcf()

@@ -35,12 +35,14 @@ class Experiment:
         # Store the data for each run.
         self.experiment_data = {
             "agent_rewards": np.zeros((self.n_agents, self.n_rounds, self.horizon)),
-            "agent_actions": np.zeros((self.n_agents, self.n_rounds, self.horizon), dtype=int),
+            "agent_actions": np.zeros(
+                (self.n_agents, self.n_rounds, self.horizon), dtype=int
+            ),
         }
 
         # Whether to store rewards for each time step.
         self.store_rewards = kwargs.get("store_rewards", False)
-    
+
     def reset_agent_histories(self):
         """
         Reset the reward and action history for each agent.
@@ -70,7 +72,9 @@ class Experiment:
             for i, agent in enumerate(self.agents):
                 self.experiment_data["agent_actions"][i, round, :] = agent.action_hist
                 if self.store_rewards:
-                    self.experiment_data["agent_rewards"][i, round, :] = agent.reward_hist
+                    self.experiment_data["agent_rewards"][
+                        i, round, :
+                    ] = agent.reward_hist
 
     def compute_average_regret(self):
         """
@@ -80,14 +84,18 @@ class Experiment:
 
         for i, agent in enumerate(self.agents):
             regret = np.zeros(self.horizon)
-            for _ in range(self.n_rounds):
-                chosen_arms = self.experiment_data["agent_actions"][i, :, :].flatten()
+            for round in range(self.n_rounds):
+                chosen_arms = self.experiment_data["agent_actions"][
+                    i, round, :
+                ].flatten()
                 current_regret = cal_stochastic_regret(mean_rewards, chosen_arms)
                 regret += current_regret
             regret = regret / self.n_rounds  # Average over rounds
             agent.regret = regret
-            
-        regret_dict = {f"Agent_{i}": agent.regret for i, agent in enumerate(self.agents)}
+
+        regret_dict = {
+            f"Agent_{i}": agent.regret for i, agent in enumerate(self.agents)
+        }
         return regret_dict
 
     def save_data(self, filename):

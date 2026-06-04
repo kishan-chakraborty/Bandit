@@ -8,9 +8,9 @@ from mab.algorithms.epsilon_t_greedy import EpsilonTGreedy
 from mab.algorithms.kl_ucb import KLUCB
 from mab.algorithms.ucb import UCB
 from mab.environment.experiment import Experiment
+from mab.environment.plots import plot_regret
 from mab.environment.stationary.bernoulli import Bernoulli
 from mab.environment.stationary.utils import Agent
-from mab.environment.plots import plot_regret
 
 # Experiment to compare various stochastic bandit algorithms
 
@@ -33,4 +33,4 @@ algorithms = [ucb, kl_ucb, epsilon_t_greedy]
 experiment = Experiment(env, algorithms, time_horizon, num_simulations)
 experiment.run()
 regret_dict = experiment.compute_average_regret()
-plot_regret(regret_dict)
+regret_plot = plot_regret(regret_dict)
