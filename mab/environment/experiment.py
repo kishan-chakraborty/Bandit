@@ -94,7 +94,7 @@ class Experiment:
             agent.regret = regret
 
         regret_dict = {
-            f"Agent_{i}": agent.regret for i, agent in enumerate(self.agents)
+            f"Agent_{i}_{agent.algo.name}": agent.regret for i, agent in enumerate(self.agents)
         }
         return regret_dict
 
