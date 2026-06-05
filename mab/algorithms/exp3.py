@@ -6,11 +6,11 @@ from .base import BasePolicy
 class EXP3(BasePolicy):
     name = "exp3"
 
-    def __init__(self, K: int, seed=None, **kwargs):
-        super().__init__(n_arms=K, seed=seed, **kwargs)
+    def __init__(self, n_arms: int, seed=None, **kwargs):
+        super().__init__(n_arms=n_arms, seed=seed, **kwargs)
         self.gamma = kwargs.get("gamma", 0.1)
         self.rng = np.random.default_rng(seed)
-        self.log_weights = np.zeros(K)
+        self.log_weights = np.zeros(n_arms)
         self.probs = self._compute_probs()
         self.save_probs = []
 

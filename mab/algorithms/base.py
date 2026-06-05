@@ -5,7 +5,7 @@ class BasePolicy:
 
     def __init__(self, n_arms, seed=None, **kwargs):
         self.n_arms = n_arms
-        self.n_iters = 0
+        self.iters = 1
 
     def select_arm(self):
         """Select an arm using UCB rule."""
@@ -13,9 +13,9 @@ class BasePolicy:
 
     def update(self, arm, reward):
         """Update the empirical mean of chosen arm."""
-        self.n_iters += 1
+        self.iters += 1
         raise NotImplementedError("This method must be implemented by subclasses.")
 
     def reset(self):
         """Reset the policy to the initial state."""
-        self.n_iters = 0
+        self.iters = 1
