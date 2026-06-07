@@ -1,3 +1,8 @@
+"""
+This implementation of EXP3 is based on "THE NONSTOCHASTIC MULTIARMED BANDIT PROBLEM"
+with a fixed exploration rate (gamma). The implemnetation is based on rewards (not loss)
+and there is a uniform exploration (gamma/K).
+"""
 import numpy as np
 
 from mab.algorithms.base import AdversarialBasePolicy

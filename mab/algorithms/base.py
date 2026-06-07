@@ -36,7 +36,7 @@ class BasePolicy:
         """Select an arm using some rule."""
         raise NotImplementedError("This method must be implemented by subclasses.")
 
-    def update(self, arm, reward):
+    def update(self, action, reward):
         """Update the empirical mean of chosen arm."""
         raise NotImplementedError("This method must be implemented by subclasses.")
 
@@ -55,6 +55,7 @@ class AdversarialBasePolicy(BasePolicy):
         Initialize the policy.
         This function should be called during reset.
         """
+        self.save_probs = []
         raise NotImplementedError("This method must be implemented by subclasses.")
 
     def initial_exploration(self):
@@ -75,6 +76,12 @@ class AdversarialBasePolicy(BasePolicy):
         self.probs = np.ones(self.n_arms) / self.n_arms
         self.save_probs.append(self.probs)
         return action
+    
+    def cal_probs(self):
+        """
+        Calculate action probabilities.
+        """
+        raise NotImplementedError('To be implemented by a subclass')
     
     def select_action(self):
         "Sample an action according to the current probability distribution."
