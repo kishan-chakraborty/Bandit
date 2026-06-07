@@ -7,31 +7,32 @@ for Stochastic and Adversarial Bandits
 Author: Kishan Chakraborty
 """
 import numpy as np
-from .base import BasePolicy
+from mab.algorithms.base import AdversarialBasePolicy
 
-class EXP3PlusPlus(BasePolicy):
+class EXP3PlusPlus(AdversarialBasePolicy):
     name = 'exp3++'
     def __init__(self, n_arms, **kwargs):
         super().__init__(n_arms, **kwargs)
-        self.loss_unweighted = np.zeros(n_arms) # \hat{L}_{t}(a)
-        self.loss_weighted = np.zeros(n_arms) # \tilde{L}_{t}(a)
-        self.counts = np.zeros(n_arms) # N_{t}(a), counts action selections.
         self.alpha = kwargs.get('alpha', 0.5) if 'alpha' in kwargs else 3
         self.beta = kwargs.get('beta', 0.5) if 'beta' in kwargs else 256
 
         self.rng = np.random.default_rng(kwargs.get('seed', 42))
+
+        self.initialize_algorithm()
+
+    def initialize_algorithm(self):
+        """
+        Initialize the policy.
+        This function should be called during reset.
+        """
+        self.loss_unweighted = np.zeros(self.n_arms) # \hat{L}_{t}(a)
+        self.loss_weighted = np.zeros(self.n_arms) # \tilde{L}_{t}(a)
+        self.counts = np.zeros(self.n_arms) # N_{t}(a), counts action selections.
+        self.iters = 1
+
         self.initial_exploration_order = self.initial_exploration()
 
         self.save_probs = []
-
-    def initial_exploration(self):
-        """
-        To ensure that all arms are explored at least once.
-        """
-        # Randomize the order of arms selected.
-        arms = np.arange(self.n_arms, dtype=int)
-        self.rng.shuffle(arms)
-        return arms
     
     def cal_ucb(self):
         temp = (self.loss_unweighted / self.counts) + np.sqrt((self.alpha * np.log(self.iters * (self.n_arms ** (1/self.alpha))) / (2 * self.counts)))
@@ -85,22 +86,6 @@ class EXP3PlusPlus(BasePolicy):
 
         return probs
 
-    def select_action(self):
-        "Sample an action according to the current probability distribution."
-        # Ensure all arms are explored at least once.
-        if self.iters <= self.n_arms:
-            action = self.initial_exploration_order[self.iters - 1]
-            self.probs = np.ones(self.n_arms) / self.n_arms
-            self.save_probs.append(self.probs)
-            return action
-        
-        self.probs = self.cal_probs()
-        self.save_probs.append(self.probs)
-        if np.isnan(self.probs).any():
-            print("NaN detected")
-
-        return np.random.choice(self.n_arms, p=self.probs)
-
     def update(self, action: int, reward: float):
         "Update the weights based on the received reward."
         # reward in [0,1]
@@ -113,20 +98,6 @@ class EXP3PlusPlus(BasePolicy):
         self.counts[action] = self.counts[action] + 1
 
         self.loss_weighted[action] = self.loss_weighted[action] + loss_weighted
-
-    def reset(self, **kwargs):
-        "Reset the policy to the initial state."
-        self.seed = kwargs.get("seed")
-
-        self.loss_unweighted = np.zeros(self.n_arms) # \hat{L}_{t}(a)
-        self.loss_weighted = np.zeros(self.n_arms) # \tilde{L}_{t}(a)
-        self.counts = np.zeros(self.n_arms) # N_{t}(a), counts action selections.
-        self.iters = 1
-
-        self.rng = np.random.default_rng(kwargs.get('seed', 42))
-        self.initial_exploration_order = self.initial_exploration()
-
-        self.save_probs = []
 
 if __name__ == "__main__":
     n_arms = 4
