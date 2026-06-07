@@ -4,10 +4,8 @@ This is to compare UCB, EXP3 and EXP3++ algorithms in stochastic bandit environm
 Kishan Chakraborty, June 5, 2026.
 """
 
-from mab.algorithms import epsilon_t_greedy, kl_ucb
+from mab.algorithms import ucb, exp3_plus_plus, exp3, exp3_new
 from mab.algorithms.ucb import UCB
-from mab.algorithms.exp3 import EXP3
-from mab.algorithms.exp3_plus_plus import EXP3PlusPlus
 
 from mab.environment.stationary.bernoulli import Bernoulli
 from mab.environment.env import Agent
@@ -19,17 +17,18 @@ from mab.environment.plots import plot_regret
 # Define the experiment parameters
 n_arms = 2
 time_horizon = int(1e5)
-num_simulations = 1
+num_simulations = 5
 
 bernoulli_probs = [0.5, 0.6]  # True probabilities for each arm
 env = Bernoulli(mean_rewards=bernoulli_probs, seed=42)
 
 # Initialize the algorithms
-ucb = Agent(UCB(n_arms=n_arms))
-exp3 = Agent(EXP3(n_arms=n_arms, gamma_fixed=False, seed=42))
-exp3_plus_plus = Agent(EXP3PlusPlus(n_arms=n_arms, seed=42))
+ucb_agent = Agent(ucb.UCB(n_arms=n_arms))
+exp3_agent = Agent(exp3.EXP3(n_arms=n_arms, seed=42, gamma=0.01))
+exp3_new_agent = Agent(exp3_new.EXP3New(n_arms=n_arms, seed=42))
+exp3_plus_plus = Agent(exp3_plus_plus.EXP3PlusPlus(n_arms=n_arms, seed=42))
 
-algorithms = [ucb, exp3, exp3_plus_plus]
+algorithms = [ucb_agent, exp3_agent, exp3_new_agent, exp3_plus_plus]
 
 # Run the experiment
 experiment = Experiment(env, algorithms, time_horizon, num_simulations)
