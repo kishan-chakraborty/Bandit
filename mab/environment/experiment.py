@@ -48,6 +48,7 @@ class Experiment:
         Reset the reward and action history for each agent.
         """
         for agent in self.agents:
+            agent.reset()
             agent.action_hist = np.zeros(self.horizon, dtype=int)
             agent.reward_hist = np.zeros(self.horizon, dtype=float)
 
@@ -79,6 +80,7 @@ class Experiment:
     def compute_average_regret(self):
         """
         Compute the cumulative regret for each agent based on the action history and reward history.
+        This 
         """
         mean_rewards = self.env.oracle()["mean_rewards"]
 

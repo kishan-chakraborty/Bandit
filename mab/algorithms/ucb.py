@@ -1,6 +1,6 @@
 import numpy as np
 
-from .base import BasePolicy
+from mab.algorithms.base import BasePolicy
 
 
 class UCB(BasePolicy):
@@ -11,12 +11,21 @@ class UCB(BasePolicy):
     def __init__(self, n_arms, **kwargs):
         super().__init__(n_arms, **kwargs)
         self.c = (
-            kwargs["C"] if kwargs and "C" in kwargs else 1.0
+            kwargs["C"] if kwargs and "C" in kwargs else 2.0
         )  # exploration parameter
-        self.counts = np.zeros(n_arms, dtype=int)  # times each arm pulled
-        self.mean_est = np.zeros(n_arms)  # estimated mean rewards
-
         self.rng = np.random.default_rng(kwargs.get("seed", 42))
+
+        self.initialize_algorithm()
+
+    def initialize_algorithm(self):
+        """
+        Initialize the policy.
+        This function should be called during reset.
+        """
+        self.iters = 1
+        self.counts = np.zeros(self.n_arms, dtype=int)
+        self.mean_est = np.zeros(self.n_arms)
+
         self.initial_exploration_order = self.initial_exploration()
 
     def initial_exploration(self):
@@ -32,7 +41,7 @@ class UCB(BasePolicy):
         """Select an arm using UCB rule."""
         # Pull each arm at least once
         if self.iters <= self.n_arms:
-            return int(self.initial_exploration_order[self.iters - 1])
+            return self.initial_selection()
 
         ucb_values = self.mean_est + self.c * np.sqrt(
             np.log(self.iters) / self.counts
@@ -47,8 +56,9 @@ class UCB(BasePolicy):
         n = self.counts[arm]
         self.mean_est[arm] += (reward - self.mean_est[arm]) / n
 
-    def reset(self, **kwargs):
-        """Reset the policy to the initial state."""
-        self.iters = 1
-        self.counts = np.zeros(self.n_arms, dtype=int)
-        self.mean_est = np.zeros(self.n_arms)
+if __name__ == "__main__":
+    args = {"C": 2.0, "seed": 42}
+    learner = UCB(4, **args)
+    action = learner.select_action()
+    learner.update(action, reward=1)
+    print(learner.name)
