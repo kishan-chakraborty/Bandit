@@ -4,7 +4,7 @@ Script to run Stationary MAB experiments with different environments and algorit
 import numpy as np
 
 from ..experiment import Experiment
-from utils import cal_stochastic_regret
+from .utils import cal_stochastic_regret
 
 class StationaryExperiment(Experiment):
     def __init__(self, env, agents, horizon, n_rounds, **kwargs):
