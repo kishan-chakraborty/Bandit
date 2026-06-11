@@ -4,9 +4,6 @@ Script to run MAB experiments with different environments and algorithms.
 
 import numpy as np
 
-from mab.environment.stationary.utils import cal_stochastic_regret
-
-
 class Experiment:
     def __init__(self, env, agents, horizon, n_rounds, **kwargs):
         """
@@ -29,6 +26,15 @@ class Experiment:
 
         self.n_agents = len(self.agents)
 
+        # Whether to store rewards for each time step.
+        self.store_rewards = kwargs.get("store_rewards", False)
+
+        self.initialize_experiment()
+
+    def initialize_experiment(self):
+        """
+        Initialize the script.
+        """
         # Initialize the reward and action history for each agent.
         self.reset_agent_histories()
 
@@ -39,9 +45,6 @@ class Experiment:
                 (self.n_agents, self.n_rounds, self.horizon), dtype=int
             ),
         }
-
-        # Whether to store rewards for each time step.
-        self.store_rewards = kwargs.get("store_rewards", False)
 
     def reset_agent_histories(self):
         """
@@ -82,23 +85,7 @@ class Experiment:
         Compute the cumulative regret for each agent based on the action history and reward history.
         This 
         """
-        mean_rewards = self.env.oracle()["mean_rewards"]
-
-        for i, agent in enumerate(self.agents):
-            regret = np.zeros(self.horizon)
-            for round in range(self.n_rounds):
-                chosen_arms = self.experiment_data["agent_actions"][
-                    i, round, :
-                ].flatten()
-                current_regret = cal_stochastic_regret(mean_rewards, chosen_arms)
-                regret += current_regret
-            regret = regret / self.n_rounds  # Average over rounds
-            agent.regret = regret
-
-        regret_dict = {
-            f"Agent_{i}_{agent.algo.name}": agent.regret for i, agent in enumerate(self.agents)
-        }
-        return regret_dict
+        raise NotImplementedError("This should be implemented by a subclass (stationary/ adversarial etc.)")
 
     def save_data(self, filename):
         """
@@ -109,3 +96,9 @@ class Experiment:
                 The name of the file to save the data to.
         """
         pass
+        
+    def reset(self):
+        """
+        Reset the experiment to start a new experiment.
+        """
+        self.initialize_experiment()

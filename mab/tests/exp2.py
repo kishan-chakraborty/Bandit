@@ -9,7 +9,7 @@ from mab.algorithms.ucb import UCB
 
 from mab.environment.stationary.bernoulli import Bernoulli
 from mab.environment.env import Agent
-from mab.environment.experiment import Experiment
+from mab.environment.stationary.experiment import StationaryExperiment
 from mab.environment.plots import plot_regret
 
 # Experiment to compare various stochastic bandit algorithms
@@ -31,7 +31,7 @@ exp3_plus_plus = Agent(exp3_plus_plus.EXP3PlusPlus(n_arms=n_arms, seed=42))
 algorithms = [ucb_agent, exp3_agent, exp3_new_agent, exp3_plus_plus]
 
 # Run the experiment
-experiment = Experiment(env, algorithms, time_horizon, num_simulations)
+experiment = StationaryExperiment(env, algorithms, time_horizon, num_simulations)
 experiment.run()
 regret_dict = experiment.compute_average_regret()
 regret_plot = plot_regret(regret_dict)
