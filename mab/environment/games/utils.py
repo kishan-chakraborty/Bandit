@@ -1,5 +1,6 @@
 """
-Utility functions supporting congestio game.
+Utility functions supporting congestio game. 
+Remember that these utilities are defined as a cost functions.
 """
 class Resource:
     def __init__(self, cost_fun) -> None:
