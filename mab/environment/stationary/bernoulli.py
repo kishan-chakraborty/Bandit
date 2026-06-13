@@ -31,13 +31,6 @@ class Bernoulli(Environment):
 
         return reward
 
-    def cal_regret(self):
-        """
-        Compute the cumulative regret based on the action history and reward history.
-        """
-        cumulative_regret = cal_stochastic_regret(self.mean_rewards, self.action_hist)
-        return cumulative_regret
-
 
 if __name__ == "__main__":
     mean_rewards = [0.1, 0.5, 0.9]

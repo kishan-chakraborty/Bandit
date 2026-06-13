@@ -55,6 +55,18 @@ class Experiment:
             agent.action_hist = np.zeros(self.horizon, dtype=int)
             agent.reward_hist = np.zeros(self.horizon, dtype=float)
 
+    def store_data_round(self, round):
+        """
+        Store history per round
+        """
+        # Store the data for this round.
+        for i, agent in enumerate(self.agents):
+            self.experiment_data["agent_actions"][i, round, :] = agent.action_hist
+            if self.store_rewards:
+                self.experiment_data["agent_rewards"][
+                    i, round, :
+                ] = agent.reward_hist
+
     def run(self):
         """
         Run the experiment and compute the regret for each algorithm.
@@ -72,13 +84,7 @@ class Experiment:
                     if self.store_rewards:
                         agent.reward_hist[t] = reward
 
-            # Store the data for this round.
-            for i, agent in enumerate(self.agents):
-                self.experiment_data["agent_actions"][i, round, :] = agent.action_hist
-                if self.store_rewards:
-                    self.experiment_data["agent_rewards"][
-                        i, round, :
-                    ] = agent.reward_hist
+            self.store_data_round(round)
 
     def compute_average_regret(self):
         """

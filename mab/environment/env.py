@@ -1,9 +1,3 @@
-import sys
-from pathlib import Path
-
-current_dir = Path.cwd()
-sys.path.append(str(current_dir.parent))
-
 import numpy as np
 
 class Agent:
