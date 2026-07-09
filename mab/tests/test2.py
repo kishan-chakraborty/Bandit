@@ -4,7 +4,7 @@ This is to compare UCB, EXP3 and EXP3++ algorithms in stochastic bandit environm
 Kishan Chakraborty, June 5, 2026.
 """
 
-from mab.algorithms import ucb, exp3_plus_plus, exp3, exp3_new
+from mab.algorithms import exp3_dynamic, ucb, exp3_plus_plus, exp3
 from mab.algorithms.ucb import UCB
 
 from mab.environment.stationary.bernoulli import Bernoulli
@@ -25,7 +25,7 @@ env = Bernoulli(mean_rewards=bernoulli_probs, seed=42)
 # Initialize the algorithms
 ucb_agent = Agent(ucb.UCB(n_arms=n_arms))
 exp3_agent = Agent(exp3.EXP3(n_arms=n_arms, seed=42, gamma=0.01))
-exp3_new_agent = Agent(exp3_new.EXP3New(n_arms=n_arms, seed=42))
+exp3_new_agent = Agent(exp3_dynamic.EXP3New(n_arms=n_arms, seed=42))
 exp3_plus_plus = Agent(exp3_plus_plus.EXP3PlusPlus(n_arms=n_arms, seed=42))
 
 algorithms = [ucb_agent, exp3_agent, exp3_new_agent, exp3_plus_plus]
