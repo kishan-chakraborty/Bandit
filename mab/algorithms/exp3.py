@@ -3,6 +3,7 @@ This implementation of EXP3 is based on "THE NONSTOCHASTIC MULTIARMED BANDIT PRO
 with a fixed exploration rate (gamma). The implemnetation is based on rewards (not loss)
 and there is a uniform exploration (gamma/K).
 """
+
 import numpy as np
 
 from mab.algorithms.base import AdversarialBasePolicy
@@ -13,9 +14,9 @@ class EXP3(AdversarialBasePolicy):
 
     def __init__(self, n_arms: int, **kwargs):
         super().__init__(n_arms=n_arms, **kwargs)
-        self.gamma = kwargs.get('gamma', 0.1)
-            
-        self.rng = np.random.default_rng(kwargs.get('seed', 42))
+        self.gamma = kwargs.get("gamma", 0.1)
+
+        self.rng = np.random.default_rng(kwargs.get("seed", 42))
 
         self.initialize_algorithm()
 
@@ -35,7 +36,7 @@ class EXP3(AdversarialBasePolicy):
         # Normalize the log_weights to prevent numerical instability
         max_log_weight = np.max(self.log_weights)
         log_weights_normalized = self.log_weights - max_log_weight
-        
+
         # mix with uniform
         weights = np.exp(log_weights_normalized)
         probs = (1 - self.gamma) * (weights / weights.sum()) + (

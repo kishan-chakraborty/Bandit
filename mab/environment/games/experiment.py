@@ -93,6 +93,6 @@ class Experiment(BaseExperiment):
             regrets += max_utils - mean_utils
 
         return regrets / self.n_rounds
-    
+
 if __name__ == "__main__":
     pass
