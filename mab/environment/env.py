@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Agent:
     def __init__(self, algo):
         """
@@ -7,9 +8,9 @@ class Agent:
 
         Args:
             algo: The MAB algorithm that the agent will use to select actions.
-        """ 
+        """
         self.algo = algo
-        
+
         # Initialized during experimentation.
         self.reward_hist = None
         self.action_hist = None
@@ -24,16 +25,17 @@ class Agent:
         """
         action = self.algo.select_action()
         return action
-    
+
     def reset(self):
         """
         Reset the agent to the initial state.
         """
         self.algo.reset()
 
+
 class Environment:
     """
-    Create a MAB environment.
+    Create a iid MAB environment.
     """
 
     def __init__(self, mean_rewards: list, seed: int, **kwargs):

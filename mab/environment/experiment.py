@@ -4,6 +4,7 @@ Script to run MAB experiments with different environments and algorithms.
 
 import numpy as np
 
+
 class Experiment:
     def __init__(self, env, agents, horizon, n_rounds, **kwargs):
         """
@@ -63,9 +64,7 @@ class Experiment:
         for i, agent in enumerate(self.agents):
             self.experiment_data["agent_actions"][i, round, :] = agent.action_hist
             if self.store_rewards:
-                self.experiment_data["agent_rewards"][
-                    i, round, :
-                ] = agent.reward_hist
+                self.experiment_data["agent_rewards"][i, round, :] = agent.reward_hist
 
     def run(self):
         """
@@ -89,9 +88,11 @@ class Experiment:
     def compute_average_regret(self):
         """
         Compute the cumulative regret for each agent based on the action history and reward history.
-        This 
+        This
         """
-        raise NotImplementedError("This should be implemented by a subclass (stationary/ adversarial etc.)")
+        raise NotImplementedError(
+            "This should be implemented by a subclass (stationary/ adversarial etc.)"
+        )
 
     def save_data(self, filename):
         """
@@ -102,7 +103,7 @@ class Experiment:
                 The name of the file to save the data to.
         """
         pass
-        
+
     def reset(self):
         """
         Reset the experiment to start a new experiment.

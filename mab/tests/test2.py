@@ -25,7 +25,7 @@ env = Bernoulli(mean_rewards=bernoulli_probs, seed=42)
 # Initialize the algorithms
 ucb_agent = Agent(ucb.UCB(n_arms=n_arms))
 exp3_agent = Agent(exp3.EXP3(n_arms=n_arms, seed=42, gamma=0.01))
-exp3_new_agent = Agent(exp3_dynamic.EXP3New(n_arms=n_arms, seed=42))
+exp3_new_agent = Agent(exp3_dynamic.EXP3Dynamic(n_arms=n_arms, seed=42))
 exp3_plus_plus = Agent(exp3_plus_plus.EXP3PlusPlus(n_arms=n_arms, seed=42))
 
 algorithms = [ucb_agent, exp3_agent, exp3_new_agent, exp3_plus_plus]
