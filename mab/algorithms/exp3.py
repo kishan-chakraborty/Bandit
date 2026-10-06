@@ -55,6 +55,31 @@ class EXP3(AdversarialBasePolicy):
         )
 
 
+class EXP3Loss(AdversarialBasePolicy):
+    name = "exp3_loss"
+
+    def __init__(self, n_arms, **kwargs):
+        super().__init__(n_arms=n_arms, **kwargs)
+
+    def cal_probs(self):
+        "Compute the probability distribution over actions."
+        # Normalize the log_weights to prevent numerical instability
+        max_log_weight = np.max(self.log_weights)
+        log_weights_normalized = self.log_weights - max_log_weight
+
+        weights = np.exp(-self.gamma * log_weights_normalized)
+        probs = weights / weights.sum()
+        return probs
+
+    def update(self, action: int, reward: float):
+        "Update the weights based on the received reward."
+        # reward in [0,1]
+        self.iters += 1
+        p = self.probs[action]
+        x_hat = (1 - reward) / p
+        self.log_weights[action] = self.log_weights[action] + x_hat / self.n_arms
+
+
 if __name__ == "__main__":
     args = {"gamma": 0.1, "seed": 42}
     learner = EXP3(4, **args)
