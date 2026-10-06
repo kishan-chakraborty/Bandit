@@ -39,8 +39,8 @@ class EXP3_IX(EXP3):
         # reward in [0,1]
         self.iters += 1
         p = self.probs[action]
-        x_hat = reward / (p + self.gamma)
-        self.log_weights[action] = self.log_weights[action] + (2 * self.gamma * x_hat)
+        x_hat = (1 - reward) / (p + self.gamma)
+        self.log_weights[action] = self.log_weights[action] - (2 * self.gamma * x_hat)
 
 
 if __name__ == "__main__":
