@@ -55,7 +55,7 @@ class EXP3(AdversarialBasePolicy):
         )
 
 
-class EXP3Loss(AdversarialBasePolicy):
+class EXP3Loss(EXP3):
     name = "exp3_loss"
 
     def __init__(self, n_arms, **kwargs):
@@ -64,8 +64,8 @@ class EXP3Loss(AdversarialBasePolicy):
     def cal_probs(self):
         "Compute the probability distribution over actions."
         # Normalize the log_weights to prevent numerical instability
-        max_log_weight = np.max(self.log_weights)
-        log_weights_normalized = self.log_weights - max_log_weight
+        min_log_weight = np.min(self.log_weights)
+        log_weights_normalized = self.log_weights - min_log_weight
 
         weights = np.exp(-self.gamma * log_weights_normalized)
         probs = weights / weights.sum()
