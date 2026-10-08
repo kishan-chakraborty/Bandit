@@ -1,9 +1,10 @@
 import numpy as np
+
 from mab.algorithms.base import AdversarialBasePolicy
 
 
 class EXP3P(AdversarialBasePolicy):
-    name = "exp3_p1"
+    name = "exp3_p"
 
     def __init__(self, n_arms: int, **kwargs):
         super().__init__(n_arms=n_arms, **kwargs)
