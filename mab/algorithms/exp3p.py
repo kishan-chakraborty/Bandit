@@ -1,8 +1,9 @@
 import numpy as np
 from mab.algorithms.base import AdversarialBasePolicy
+from mab.algorithms.exp3 import EXP3
 
 
-class EXP3P(AdversarialBasePolicy):
+class EXP3P1(AdversarialBasePolicy):
     name = "exp3_p1"
 
     def __init__(self, n_arms: int, **kwargs):
@@ -68,8 +69,8 @@ class EXP3P(AdversarialBasePolicy):
         self.log_weights[action] += self.gamma / (3 * self.n_arms) * x_hat
 
 
-class EXP3P1(AdversarialBasePolicy):
-    name = "exp3_p1"
+class EXP3P(EXP3):
+    name = "exp3_p"
 
     def __init__(self, n_arms: int, **kwargs):
         super().__init__(n_arms, **kwargs)
