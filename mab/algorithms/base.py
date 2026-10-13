@@ -37,7 +37,7 @@ class BasePolicy:
         """Select an arm using some rule."""
         raise NotImplementedError("This method must be implemented by subclasses.")
 
-    def update(self, action, reward):
+    def update(self, arm, reward):
         """Update the empirical mean of chosen arm."""
         raise NotImplementedError("This method must be implemented by subclasses.")
 
