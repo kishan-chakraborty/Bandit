@@ -3,3 +3,4 @@
 Bandit.egg-info
 mablib.egg-info
 *.json
+*.pkl
