@@ -9,39 +9,13 @@ from mab.environment.stationary.bernoulli import Bernoulli
 from mab.environment.env import Agent
 from mab.environment.experiment import Experiment
 from mab.environment.plots import plot_regret
+from bernoulli_ts1 import BernoulliTS1
 import numpy as np
-
-
-class BernoulliTS1(BernoulliTS):
-    def __init__(self, n_arms, **kwargs):
-        super().__init__(n_arms, **kwargs)
-
-    def initialize_algorithm(self):
-        """
-        Initialize the policy.
-        This function should be called during reset.
-        """
-        self.iters = 1
-        self.mean_est = np.zeros(self.n_arms)
-        self.save_alphas = []
-        self.save_betas = []
-
-        self.initial_exploration_order = self.initial_exploration()
-
-    def update(self, arm, reward):
-        """Update the empirical mean of chosen arm."""
-        self.save_alphas.append(self.alphas)
-        self.save_betas.append(self.betas)
-
-        self.iters += 1
-        self.alphas[arm] = self.alphas[arm] + reward
-        self.betas[arm] = self.betas[arm] + (1 - reward)
-
 
 # Define the experiment parameters
 n_arms = 3
 time_horizon = 10_000
-num_simulations = 5
+num_simulations = 1
 
 # Prior parameters of beta distribution.
 alphas = np.ones(n_arms)
