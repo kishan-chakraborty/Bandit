@@ -3,4 +3,5 @@
 Bandit.egg-info
 mablib.egg-info
 *.json
-*.pkl
+*.toml
+pyproject.toml

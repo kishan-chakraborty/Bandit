@@ -43,7 +43,9 @@ class UCB(BasePolicy):
         if self.iters <= self.n_arms:
             return self.initial_selection()
 
-        ucb_values = self.mean_est + self.c * np.sqrt(np.log(self.iters) / self.counts)
+        ucb_values = self.mean_est + self.c * np.sqrt(
+            np.log(self.iters) / self.counts
+        )
 
         return int(np.argmax(ucb_values))
 
@@ -53,7 +55,6 @@ class UCB(BasePolicy):
         self.counts[arm] += 1
         n = self.counts[arm]
         self.mean_est[arm] += (reward - self.mean_est[arm]) / n
-
 
 if __name__ == "__main__":
     args = {"C": 2.0, "seed": 42}
