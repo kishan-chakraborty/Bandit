@@ -5,3 +5,4 @@ mablib.egg-info
 *.json
 *.toml
 pyproject.toml
+*.pkl
