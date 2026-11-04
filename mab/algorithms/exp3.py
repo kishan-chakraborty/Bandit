@@ -44,14 +44,14 @@ class EXP3(AdversarialBasePolicy):
         )
         return probs
 
-    def update(self, action: int, reward: float):
+    def update(self, arm: int, reward: float):
         "Update the weights based on the received reward."
         # reward in [0,1]
         self.iters += 1
-        p = self.probs[action]
+        p = self.probs[arm]
         x_hat = reward / p
-        self.log_weights[action] = (
-            self.log_weights[action] + (self.gamma * x_hat) / self.n_arms
+        self.log_weights[arm] = (
+            self.log_weights[arm] + (self.gamma * x_hat) / self.n_arms
         )
 
 
@@ -71,13 +71,13 @@ class EXP3Loss(EXP3):
         probs = weights / weights.sum()
         return probs
 
-    def update(self, action: int, reward: float):
+    def update(self, arm: int, reward: float):
         "Update the weights based on the received reward."
         # reward in [0,1]
         self.iters += 1
-        p = self.probs[action]
+        p = self.probs[arm]
         x_hat = (1 - reward) / p
-        self.log_weights[action] = self.log_weights[action] + x_hat / self.n_arms
+        self.log_weights[arm] = self.log_weights[action] + x_hat / self.n_arms
 
 
 if __name__ == "__main__":
