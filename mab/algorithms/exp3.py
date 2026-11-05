@@ -77,7 +77,7 @@ class EXP3Loss(EXP3):
         self.iters += 1
         p = self.probs[arm]
         x_hat = (1 - reward) / p
-        self.log_weights[arm] = self.log_weights[action] + x_hat / self.n_arms
+        self.log_weights[arm] = self.log_weights[arm] + x_hat / self.n_arms
 
 
 if __name__ == "__main__":
