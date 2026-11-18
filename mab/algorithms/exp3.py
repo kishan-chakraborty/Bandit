@@ -50,9 +50,7 @@ class EXP3(AdversarialBasePolicy):
         self.iters += 1
         p = self.probs[arm]
         x_hat = reward / p
-        self.log_weights[arm] = (
-            self.log_weights[arm] + (self.gamma * x_hat) / self.n_arms
-        )
+        self.log_weights[arm] += self.gamma * x_hat / self.n_arms
 
 
 class EXP3Loss(EXP3):
